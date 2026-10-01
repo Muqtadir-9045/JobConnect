@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Environment / secrets (keep the committed *.env.example templates)
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+dist-ssr/
+build/
+coverage/
+
+# Local uploads (user resumes)
+server/uploads/
+uploads/
+
+# Deployment tooling
+.vercel/
+
+# Logs
+logs/
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
