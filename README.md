@@ -2,6 +2,8 @@
 
 A job recruitment platform with three roles: **Candidate**, **Recruiter**, and **Admin**.
 
+**Live demo:** https://jobconnect-red.vercel.app
+
 ## Stack
 
 - **Frontend:** React (JavaScript, Vite), Tailwind CSS v4, React Router, Axios
@@ -42,3 +44,21 @@ Only those records are ever deleted. It refuses to run when `NODE_ENV=production
 `MONGO_URI` is not a local database.
 
 In development the client proxies `/api` requests to the backend.
+
+## Deployment (Vercel + MongoDB Atlas)
+
+The repo deploys as a single Vercel project: `vercel.json` builds `client/` as the static site and
+`api/index.js` runs the Express app as a serverless function on the same domain. Every push to
+`main` redeploys automatically.
+
+Set these in the Vercel project (Settings → Environment Variables), then redeploy:
+
+| Variable | Value |
+| --- | --- |
+| `NODE_ENV` | `production` |
+| `MONGO_URI` | Atlas `mongodb+srv://` connection string, including the database name |
+| `JWT_SECRET` | long random string |
+| `JWT_EXPIRES_IN` | e.g. `7d` |
+| `CLIENT_URL` | the site's own URL, e.g. `https://jobconnect-red.vercel.app` |
+
+Atlas must allow connections from `0.0.0.0/0` (Network Access), since Vercel has no fixed IPs.
