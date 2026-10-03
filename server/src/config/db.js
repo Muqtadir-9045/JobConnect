@@ -1,3 +1,4 @@
+const dns = require('dns');
 const mongoose = require('mongoose');
 
 const cache = globalThis.__jobconnectMongo || (globalThis.__jobconnectMongo = { promise: null });
@@ -14,6 +15,12 @@ const connectDB = async () => {
     const uri = process.env.MONGO_URI;
     if (!uri) {
       throw new Error('MONGO_URI is not defined in environment variables');
+    }
+
+    // Optional: some Windows setups give Node a DNS server that refuses the SRV lookup
+    // mongodb+srv:// needs (querySrv ECONNREFUSED). e.g. DNS_SERVERS=8.8.8.8,1.1.1.1
+    if (process.env.DNS_SERVERS) {
+      dns.setServers(process.env.DNS_SERVERS.split(',').map((s) => s.trim()).filter(Boolean));
     }
 
     cache.promise = mongoose
